@@ -21,24 +21,27 @@ var windu = new character("Mace Windu", "https://media0.giphy.com/media/3ornjTfc
 
 var charArray = [obiWan, anakin, grevious, windu];
 var value;
+var index;
 
 // Give each character a value of i + 1
 
 for(var i = 0; i < charArray.length; i++) {
+    var newDiv = $("<div>");
     var nameP = $("<p>");
-    var imgP = $("<p>");
     var healthP = $("<p>");
     var newImg = $("<img>");
-    nameP.attr("value", i);
+    newDiv.attr("id", "character" + i);
+    newDiv.addClass("position character");
+    newDiv.attr("value", i);
     nameP.text(charArray[i].name);
-    nameP.addClass("position centered character");
+    nameP.addClass("centered");
     newImg.attr("src", charArray[i].image)
     newImg.addClass("image");
     healthP.text(charArray[i].health);
-    imgP.append(newImg);
-    nameP.append(imgP);
+    nameP.append(newImg);
     nameP.append(healthP);
-    $("#characters").append(nameP);
+    newDiv.append(nameP);
+    $("#characters").append(newDiv);
 }
 
 
@@ -48,15 +51,27 @@ for(var i = 0; i < charArray.length; i++) {
 $(".character").on("click", function() {
     $(this).attr("id", "indexRemove");
     $(".character").not(this).remove();
+    var value = ($(this).attr("value"));
     value = parseInt(value);
-    if(this.value === 0) {
-        console.log("works");
+    if(value === 0) {
+        removeSelectedPlayer();
+    }
+    else if(value === 1) {
+        removeSelectedPlayer();
+    }
+    else if(value === 2) {
+        removeSelectedPlayer();
+    }
+    else if(value === 3) {
+        removeSelectedPlayer();
     }
 })
 
 
 
-
+function removeSelectedPlayer() {
+    charArray.splice(value, 1);
+}
 
 
 
