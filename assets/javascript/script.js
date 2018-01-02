@@ -54,24 +54,41 @@ $(".character").on("click", function() {
     var value = ($(this).attr("value"));
     value = parseInt(value);
     if(value === 0) {
-        removeSelectedPlayer();
+        charArray.splice(value, 1);
     }
     else if(value === 1) {
-        removeSelectedPlayer();
+        charArray.splice(value, 1);
     }
     else if(value === 2) {
-        removeSelectedPlayer();
+        charArray.splice(value, 1);
     }
     else if(value === 3) {
-        removeSelectedPlayer();
+        charArray.splice(value, 1);
     }
+    
+    for(var i = 0; i < charArray.length; i++) {
+    var newDiv = $("<div>");
+    var nameP = $("<p>");
+    var healthP = $("<p>");
+    var newImg = $("<img>");
+    newDiv.attr("id", "character" + i);
+    newDiv.addClass("position character");
+    newDiv.attr("value", i);
+    nameP.text(charArray[i].name);
+    nameP.addClass("centered");
+    newImg.attr("src", charArray[i].image)
+    newImg.addClass("image");
+    healthP.text(charArray[i].health);
+    nameP.append(newImg);
+    nameP.append(healthP);
+    newDiv.append(nameP);
+    $("#enemies").append(newDiv);
+}
 })
 
 
 
-function removeSelectedPlayer() {
-    charArray.splice(value, 1);
-}
+
 
 
 
