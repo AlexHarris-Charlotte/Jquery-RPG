@@ -1,0 +1,24 @@
+.image {
+    width: 200px;
+    height: 200px;
+    padding: 0 5px;
+}
+
+.position {
+    float: left;
+}
+
+.centered {
+    text-align: center;
+    border: 1px solid blue;
+}
+
+.clearfix {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+#fight {
+    margin: 250px 0 0 10px;
+}
