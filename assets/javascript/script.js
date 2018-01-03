@@ -22,6 +22,10 @@ var windu = new character("Mace Windu", "https://media0.giphy.com/media/3ornjTfc
 var charArray = [obiWan, anakin, grevious, windu];
 var value;
 var index;
+var newDiv = $("<div>");
+var nameP = $("<p>");
+var healthP = $("<p>");
+var newImg = $("<img>");
 
 // Give each character a value of i + 1
 
@@ -30,7 +34,6 @@ for(var i = 0; i < charArray.length; i++) {
     var nameP = $("<p>");
     var healthP = $("<p>");
     var newImg = $("<img>");
-    newDiv.attr("id", "character" + i);
     newDiv.addClass("position character");
     newDiv.attr("value", i);
     nameP.text(charArray[i].name);
@@ -50,7 +53,9 @@ for(var i = 0; i < charArray.length; i++) {
 // need to move the other characters to enemies available to attack
 $(".character").on("click", function() {
     $(this).attr("id", "indexRemove");
-    $(".character").not(this).remove();
+    $(".character").not(this).appendTo("#enemies");
+    $(".character").not(this).addClass("enemyCharacter");
+    $(".character").not(this).css("backgroundColor", "red");
     var value = ($(this).attr("value"));
     value = parseInt(value);
     if(value === 0) {
@@ -65,26 +70,26 @@ $(".character").on("click", function() {
     else if(value === 3) {
         charArray.splice(value, 1);
     }
-    
-    for(var i = 0; i < charArray.length; i++) {
-    var newDiv = $("<div>");
-    var nameP = $("<p>");
-    var healthP = $("<p>");
-    var newImg = $("<img>");
-    newDiv.attr("id", "character" + i);
-    newDiv.addClass("position character");
-    newDiv.attr("value", i);
-    nameP.text(charArray[i].name);
-    nameP.addClass("centered");
-    newImg.attr("src", charArray[i].image)
-    newImg.addClass("image");
-    healthP.text(charArray[i].health);
-    nameP.append(newImg);
-    nameP.append(healthP);
-    newDiv.append(nameP);
-    $("#enemies").append(newDiv);
-}
+    $(".character").off("click");
 })
+
+
+// #enemies is the parent element, .enemyCharacter is what we are removing
+$("#enemies").on("click", ".enemyCharacter", function() {
+    $(this).appendTo("#defender");
+    if($("#defender").has(".enemyCharacter")) {
+        $("#enemies").off("click");
+    }
+})
+
+// Need an event for the attack button
+// when pressed the user player takes damage from the enemy's counterAttack dmg
+// the enemy takes damage from the user damage
+// the user character will gain attack += attack on each button press
+// if user HP drops below 0, game over
+// if enemy HP drops below 0, remove them
+
+
 
 
 
