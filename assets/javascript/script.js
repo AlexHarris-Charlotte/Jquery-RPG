@@ -1,11 +1,4 @@
-// Pseudocode
-// Need a constructor to make objects for each character
-// can store characters in an array
-// Use jquery to append characters to a div on the page
-//  
-//  
-//  
-
+// Object Constructor
 function character(name, image, health, attackPower, counterAttack) {
     this.name = name;
     this.image = image;
@@ -14,6 +7,7 @@ function character(name, image, health, attackPower, counterAttack) {
     this.counterAttack = counterAttack;
 } 
 
+// Character Objects
 var obiWan = new character("Obi-Wan Kenobi", "https://media0.giphy.com/media/3ohuAkAS7Uzq20qzXW/200.gif#29-grid1", 150, 10, 15);
 var anakin = new character("Anakin Skywalker", "https://media1.giphy.com/media/Ii3yAgfTEHPd6/200w.gif#22-grid1",175, 8, 30);
 var grevious = new character("General Grevious", "https://media2.giphy.com/media/kAUgtSozkruPC/200.gif#0-grid1",100, 20, 20);
@@ -29,7 +23,6 @@ var nameP = $("<p>");
 var healthP = $("<p>");
 var newImg = $("<img>");
 
-// Give each character a value of i + 1
 
 for(var i = 0; i < charArray.length; i++) {
     var newDiv = $("<div>");
@@ -64,14 +57,13 @@ $(".character").on("click", function() {
 })
 
 
-// #enemies is the parent element, .enemyCharacter is what we are removing
+// #enemies is the parent element, .enemyCharacter is what we are moving
 $("#enemies").on("click", ".enemyCharacter", function() {
     $(this).appendTo("#defender");
     $(this).attr("id", "enemyDefender");
     if($("#defender").has(".enemyCharacter")) {     //This line is bugged
         $("#enemies").off("click");
         $("button").on("click", function() {
-            // need to use character values to find out which object is which
             var playerValue = ($("#player").attr("value"));
             var enemyValue = ($("#enemyDefender").attr("value"));
             playerValue = parseInt(playerValue);
