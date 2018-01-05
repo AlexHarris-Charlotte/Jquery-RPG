@@ -51,49 +51,38 @@ $(".character").on("click", function() {
     $(".character").not(this).appendTo("#enemies");
     $(".character").not(this).addClass("enemyCharacter");
     $(".character").not(this).css("backgroundColor", "red");
-    var value = ($(this).attr("value"));
-    value = parseInt(value);
     $(".character").off("click");
 })
 
 
-// #enemies is the parent element, .enemyCharacter is what we are moving
-$("#enemies").on("click", ".enemyCharacter", function() {
+$("#enemies").on("click", ".enemyCharacter", function enemySelected() {
+    console.log("enemy clicked to defender");
     $(this).appendTo("#defender");
     $(this).attr("id", "enemyDefender");
     if($("#defender").has(".enemyCharacter")) {     //This line is bugged
-        $("#enemies").off("click");
+        // $("#enemies").off("click"); // no turns off click permanently
         $("button").on("click", function() {
             var playerValue = ($("#player").attr("value"));
             var enemyValue = ($("#enemyDefender").attr("value"));
             playerValue = parseInt(playerValue);
             enemyValue = parseInt(enemyValue);
-            console.log("Player value:" + playerValue);
-            console.log("Enemy value:" + enemyValue);
             playerCharacter = charArray[playerValue];
             enemyCharacter = charArray[enemyValue];
+            console.log("Player Attack power:" + playerCharacter.attackPower);
+            console.log("Enemy Counter attack power:" + enemyCharacter.counterAttack);
             playerCharacter.health -= enemyCharacter.counterAttack;
             enemyCharacter.health -= playerCharacter.attackPower;
             $("#player p").last().text(playerCharacter.health);
             $("#enemyDefender p").last().text(enemyCharacter.health);
             playerCharacter.attackPower += playerCharacter.attackPower;
+            // $("#enemies").on("click", ".enemyCharacter");
             if(enemyCharacter.health <= 0) {
                 $("#enemyDefender").remove();
+                console.log(x);
             }
         })
     }
 })
-
-
-
-
-
-
-
-
-
-
-
 
 
 
