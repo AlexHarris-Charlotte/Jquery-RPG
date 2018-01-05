@@ -54,13 +54,23 @@ $(".character").on("click", function() {
     $(".character").off("click");
 })
 
+$("#enemies").on("click", ".enemyCharacter", function(){
+    $(this).attr("id", "enemySelected");
+    console.log("ID added");
+})
 
-$("#enemies").on("click", ".enemyCharacter", function enemySelected() {
+// name space here?
+
+$("#enemies").on("click", ".enemyCharacter", function(){
+    enemySelected();
+});
+
+
+function enemySelected() {
     console.log("enemy clicked to defender");
-    $(this).appendTo("#defender");
-    $(this).attr("id", "enemyDefender");
-    if($("#defender").has(".enemyCharacter")) {     //This line is bugged
-        // $("#enemies").off("click"); // no turns off click permanently
+    $("#enemySelected").appendTo("#defender");
+    $("#enemySelected").attr("id", "enemyDefender");
+    if($("#defender").has(".enemyCharacter")) {     
         $("button").on("click", function() {
             var playerValue = ($("#player").attr("value"));
             var enemyValue = ($("#enemyDefender").attr("value"));
@@ -75,15 +85,13 @@ $("#enemies").on("click", ".enemyCharacter", function enemySelected() {
             $("#player p").last().text(playerCharacter.health);
             $("#enemyDefender p").last().text(enemyCharacter.health);
             playerCharacter.attackPower += playerCharacter.attackPower;
-            // $("#enemies").on("click", ".enemyCharacter");
             if(enemyCharacter.health <= 0) {
                 $("#enemyDefender").remove();
+                $("#enemies").on("click", ".enemyCharacter");
                 console.log(x);
             }
         })
     }
-})
-
-
+}
 
 
