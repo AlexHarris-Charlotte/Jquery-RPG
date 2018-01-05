@@ -23,25 +23,26 @@ var nameP = $("<p>");
 var healthP = $("<p>");
 var newImg = $("<img>");
 
-
-for(var i = 0; i < charArray.length; i++) {
-    var newDiv = $("<div>");
-    var nameP = $("<p>");
-    var healthP = $("<p>");
-    var newImg = $("<img>");
-    newDiv.addClass("position character");
-    newDiv.attr("value", i);
-    nameP.text(charArray[i].name);
-    nameP.addClass("centered");
-    newImg.attr("src", charArray[i].image)
-    newImg.addClass("image");
-    healthP.text(charArray[i].health);
-    nameP.append(newImg);
-    nameP.append(healthP);
-    newDiv.append(nameP);
-    $("#characters").append(newDiv);
+function startGameState() {
+    for(var i = 0; i < charArray.length; i++) {
+        var newDiv = $("<div>");
+        var nameP = $("<p>");
+        var healthP = $("<p>");
+        var newImg = $("<img>");
+        newDiv.addClass("position character");
+        newDiv.attr("value", i);
+        nameP.text(charArray[i].name);
+        nameP.addClass("centered");
+        newImg.attr("src", charArray[i].image)
+        newImg.addClass("image");
+        healthP.text(charArray[i].health);
+        nameP.append(newImg);
+        nameP.append(healthP);
+        newDiv.append(nameP);
+        $("#characters").append(newDiv);
+    }
 }
-
+startGameState();
 
 // on click need to keep selected character in the top div
 // maybe remove the clicked character from the charArray and use another forloop to append to enemies div
@@ -52,6 +53,7 @@ $(".character").on("click", function() {
     $(".character").not(this).addClass("enemyCharacter");
     $(".character").not(this).css("backgroundColor", "red");
     $(".character").off("click");
+    console.log($("#defender").children().length);
 })
 
 $("#enemies").on("click", ".enemyCharacter", function(){
@@ -59,18 +61,16 @@ $("#enemies").on("click", ".enemyCharacter", function(){
     console.log("ID added");
 })
 
-// name space here?
-
 $("#enemies").on("click", ".enemyCharacter", function(){
     enemySelected();
 });
-
 
 function enemySelected() {
     console.log("enemy clicked to defender");
     $("#enemySelected").appendTo("#defender");
     $("#enemySelected").attr("id", "enemyDefender");
-    if($("#defender").has(".enemyCharacter")) {     
+    if($("#defender").has(".enemyCharacter")) {
+        $("#enemies").off("click");     
         $("button").on("click", function() {
             var playerValue = ($("#player").attr("value"));
             var enemyValue = ($("#enemyDefender").attr("value"));
@@ -87,11 +87,34 @@ function enemySelected() {
             playerCharacter.attackPower += playerCharacter.attackPower;
             if(enemyCharacter.health <= 0) {
                 $("#enemyDefender").remove();
-                $("#enemies").on("click", ".enemyCharacter");
-                console.log(x);
+                $("#enemies").on("click", ".enemyCharacter", function(){
+                    $(this).attr("id", "enemySelected");
+                    appendToDefend();
+                });
+                if($("#defender").children().length === 1) {
+                    if($("#enemies").children().length === 0) {
+                        $("button").text("Reset");
+                        // on reset click
+                        // $(".character").remove();
+                        // startGameState();
+                        // need change character values back to defaults
+                        // need to change button text back to attack
+                    }
+                }
             }
-        })
+        }); 
     }
 }
 
 
+function appendToDefend () {
+    $("#enemySelected").appendTo("#defender");
+    $("#enemySelected").attr("id", "enemyDefender");
+}
+
+
+// if($("#defender").children().length === 0) {
+//     if($("#enemies").children().length === 0) {
+//         alert()
+//     }
+// }
