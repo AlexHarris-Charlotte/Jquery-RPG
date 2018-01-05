@@ -7,11 +7,25 @@ function character(name, image, health, attackPower, counterAttack) {
     this.counterAttack = counterAttack;
 } 
 
+var obiWansHP = 150;
+
 // Character Objects
-var obiWan = new character("Obi-Wan Kenobi", "https://media0.giphy.com/media/3ohuAkAS7Uzq20qzXW/200.gif#29-grid1", 150, 10, 15);
+// Object and array Values are mutable.
+// When restarting the game, the values will be modified from combat
+// The state of the object's values are modified.
+// How the hell do I get back to the original state??
+//object.freeze -- maybe use this to assign to a variable and use it when call
+// on startgame state
+var obiWan = new character("Obi-Wan Kenobi", "https://media0.giphy.com/media/3ohuAkAS7Uzq20qzXW/200.gif#29-grid1", obiWansHP, 10, 15);
 var anakin = new character("Anakin Skywalker", "https://media1.giphy.com/media/Ii3yAgfTEHPd6/200w.gif#22-grid1",175, 8, 30);
 var grevious = new character("General Grevious", "https://media2.giphy.com/media/kAUgtSozkruPC/200.gif#0-grid1",100, 20, 20);
 var windu = new character("Mace Windu", "https://media0.giphy.com/media/3ornjTfcat9eNI1wg8/200.gif#2-grid1",200, 8, 25);
+
+// freezing objects to the game start state
+Object.freeze(obiWan); // locks values, cannot reduce its HP
+Object.freeze(anakin); // locks values, cannot reduce its HP
+Object.freeze(grevious); // locks values, cannot reduce its HP
+Object.freeze(windu); // locks values, cannot reduce its HP
 
 var charArray = [obiWan, anakin, grevious, windu];
 var value;
@@ -24,6 +38,21 @@ var healthP = $("<p>");
 var newImg = $("<img>");
 
 function startGameState() {
+    //creating copy objects for mutable data
+    var objectCopyObi = Object.assign({}, obiWan);
+    objectCopyObi.health = obiWan.health;
+    objectCopyObi.attackPower = obiWan.attackPower;
+    var objectCopyAnakin = Object.assign({}, anakin);
+    objectCopyAnakin.health = anakin.health;
+    objectCopyAnakin.attackPower = anakin.attackPower;
+    var objectCopyGrevious = Object.assign({}, grevious);
+    objectCopyGrevious.health = grevious.health;
+    objectCopyGrevious.attackPower = grevious.attackPower;
+    var objectCopyWindu = Object.assign({}, windu);
+    objectCopyWindu.health = windu.health;
+    objectCopyWindu.attackPower = windu.attackPower;
+
+var copyArray = [objectCopyObi, objectCopyAnakin, objectCopyGrevious, objectCopyWindu];
     for(var i = 0; i < charArray.length; i++) {
         var newDiv = $("<div>");
         var nameP = $("<p>");
@@ -76,8 +105,8 @@ function enemySelected() {
             var enemyValue = ($("#enemyDefender").attr("value"));
             playerValue = parseInt(playerValue);
             enemyValue = parseInt(enemyValue);
-            playerCharacter = charArray[playerValue];
-            enemyCharacter = charArray[enemyValue];
+            playerCharacter = copyArray[playerValue];
+            enemyCharacter = copyArray[enemyValue];
             console.log("Player Attack power:" + playerCharacter.attackPower);
             console.log("Enemy Counter attack power:" + enemyCharacter.counterAttack);
             playerCharacter.health -= enemyCharacter.counterAttack;
@@ -94,11 +123,8 @@ function enemySelected() {
                 if($("#defender").children().length === 1) {
                     if($("#enemies").children().length === 0) {
                         $("button").text("Reset");
-                        // on reset click
-                        // $(".character").remove();
-                        // startGameState();
-                        // need change character values back to defaults
-                        // need to change button text back to attack
+                        $("#player").remove();
+                        startGameState();
                     }
                 }
             }
@@ -113,8 +139,3 @@ function appendToDefend () {
 }
 
 
-// if($("#defender").children().length === 0) {
-//     if($("#enemies").children().length === 0) {
-//         alert()
-//     }
-// }
