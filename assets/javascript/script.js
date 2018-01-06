@@ -27,6 +27,22 @@ Object.freeze(anakin); // locks values, cannot reduce its HP
 Object.freeze(grevious); // locks values, cannot reduce its HP
 Object.freeze(windu); // locks values, cannot reduce its HP
 
+//creating copy objects for mutable data
+//The coby objects reference the original immutable objects for starting help and attack power
+// var objectCopyObi = Object.assign({}, obiWan);
+// objectCopyObi.health = obiWan.health;
+// objectCopyObi.attackPower = obiWan.attackPower;
+// var objectCopyAnakin = Object.assign({}, anakin);
+// objectCopyAnakin.health = anakin.health;
+// objectCopyAnakin.attackPower = anakin.attackPower;
+// var objectCopyGrevious = Object.assign({}, grevious);
+// objectCopyGrevious.health = grevious.health;
+// objectCopyGrevious.attackPower = grevious.attackPower;
+// var objectCopyWindu = Object.assign({}, windu);
+// objectCopyWindu.health = windu.health;
+// objectCopyWindu.attackPower = windu.attackPower;
+
+// var copyArray = [objectCopyObi, objectCopyAnakin, objectCopyGrevious, objectCopyWindu];
 var charArray = [obiWan, anakin, grevious, windu];
 var value;
 var index;
@@ -38,21 +54,6 @@ var healthP = $("<p>");
 var newImg = $("<img>");
 
 function startGameState() {
-    //creating copy objects for mutable data
-    var objectCopyObi = Object.assign({}, obiWan);
-    objectCopyObi.health = obiWan.health;
-    objectCopyObi.attackPower = obiWan.attackPower;
-    var objectCopyAnakin = Object.assign({}, anakin);
-    objectCopyAnakin.health = anakin.health;
-    objectCopyAnakin.attackPower = anakin.attackPower;
-    var objectCopyGrevious = Object.assign({}, grevious);
-    objectCopyGrevious.health = grevious.health;
-    objectCopyGrevious.attackPower = grevious.attackPower;
-    var objectCopyWindu = Object.assign({}, windu);
-    objectCopyWindu.health = windu.health;
-    objectCopyWindu.attackPower = windu.attackPower;
-
-var copyArray = [objectCopyObi, objectCopyAnakin, objectCopyGrevious, objectCopyWindu];
     for(var i = 0; i < charArray.length; i++) {
         var newDiv = $("<div>");
         var nameP = $("<p>");
@@ -95,6 +96,21 @@ $("#enemies").on("click", ".enemyCharacter", function(){
 });
 
 function enemySelected() {
+
+    var objectCopyObi = Object.assign({}, obiWan);
+    objectCopyObi.health = obiWan.health;
+    objectCopyObi.attackPower = obiWan.attackPower;
+    var objectCopyAnakin = Object.assign({}, anakin);
+    objectCopyAnakin.health = anakin.health;
+    objectCopyAnakin.attackPower = anakin.attackPower;
+    var objectCopyGrevious = Object.assign({}, grevious);
+    objectCopyGrevious.health = grevious.health;
+    objectCopyGrevious.attackPower = grevious.attackPower;
+    var objectCopyWindu = Object.assign({}, windu);
+    objectCopyWindu.health = windu.health;
+    objectCopyWindu.attackPower = windu.attackPower;
+
+    var copyArray = [objectCopyObi, objectCopyAnakin, objectCopyGrevious, objectCopyWindu];
     console.log("enemy clicked to defender");
     $("#enemySelected").appendTo("#defender");
     $("#enemySelected").attr("id", "enemyDefender");
@@ -122,7 +138,6 @@ function enemySelected() {
                 });
                 if($("#defender").children().length === 1) {
                     if($("#enemies").children().length === 0) {
-                        $("button").text("Reset");
                         $("#player").remove();
                         startGameState();
                     }
