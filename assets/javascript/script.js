@@ -16,7 +16,7 @@ var obiWansHP = 150;
 // How the hell do I get back to the original state??
 //object.freeze -- maybe use this to assign to a variable and use it when call
 // on startgame state
-var obiWan = new character("Obi-Wan Kenobi", "https://media0.giphy.com/media/3ohuAkAS7Uzq20qzXW/200.gif#29-grid1", obiWansHP, 10, 15);
+var obiWan = new character("Obi-Wan Kenobi", "https://media0.giphy.com/media/3ohuAkAS7Uzq20qzXW/200.gif#29-grid1", 150, 10, 15);
 var anakin = new character("Anakin Skywalker", "https://media1.giphy.com/media/Ii3yAgfTEHPd6/200w.gif#22-grid1",175, 8, 30);
 var grevious = new character("General Grevious", "https://media2.giphy.com/media/kAUgtSozkruPC/200.gif#0-grid1",100, 20, 20);
 var windu = new character("Mace Windu", "https://media0.giphy.com/media/3ornjTfcat9eNI1wg8/200.gif#2-grid1",200, 8, 25);
@@ -71,20 +71,21 @@ function startGameState() {
         newDiv.append(nameP);
         $("#characters").append(newDiv);
     }
+    $(".character").on("click", function() {
+        $(this).attr("id", "player");
+        $(".character").not(this).appendTo("#enemies");
+        $(".character").not(this).addClass("enemyCharacter");
+        $(".character").not(this).css("backgroundColor", "red");
+        $(".character").off("click");
+        console.log($("#defender").children().length);
+    })
 }
 startGameState();
 
 // on click need to keep selected character in the top div
 // maybe remove the clicked character from the charArray and use another forloop to append to enemies div
 // need to move the other characters to enemies available to attack
-$(".character").on("click", function() {
-    $(this).attr("id", "player");
-    $(".character").not(this).appendTo("#enemies");
-    $(".character").not(this).addClass("enemyCharacter");
-    $(".character").not(this).css("backgroundColor", "red");
-    $(".character").off("click");
-    console.log($("#defender").children().length);
-})
+
 
 $("#enemies").on("click", ".enemyCharacter", function(){
     $(this).attr("id", "enemySelected");
