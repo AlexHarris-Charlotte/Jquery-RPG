@@ -36,15 +36,6 @@ var objectCopyGrevious = Object.assign({}, grevious);
 var objectCopyWindu = Object.assign({}, windu);
 
 function startGameState()  {
-    objectCopyObi = obiWan;
-    // objectCopyObi.health = obiWan.health;
-    console.log(objectCopyObi.health);
-    objectCopyAnakin = anakin;
-    objectCopyGrevious = grevious;
-    objectCopyWindu = windu;
-    console.log(objectCopyWindu.attackPower);
-
-
     var copyArray = [objectCopyObi, objectCopyAnakin, objectCopyGrevious, objectCopyWindu];
 
     for(var i = 0; i < charArray.length; i++) {
@@ -151,15 +142,4 @@ function appendToDefend () {
     $("#enemySelected").attr("id", "enemyDefender");
 }
 
-function objectCopies() {
-    var objectCopyObi = Object.assign({}, obiWan);
-    objectCopyObi = obiWan;
-    var objectCopyAnakin = Object.assign({}, anakin);
-    objectCopyAnakin = anakin;
-    var objectCopyGrevious = Object.assign({}, grevious);
-    objectCopyGrevious = grevious;
-    var objectCopyWindu = Object.assign({}, windu);
-    objectCopyWindu = windu;
 
-    var copyArray = [objectCopyObi, objectCopyAnakin, objectCopyGrevious, objectCopyWindu];
-}
