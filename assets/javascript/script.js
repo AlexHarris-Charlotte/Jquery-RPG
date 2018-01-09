@@ -114,8 +114,6 @@ function enemySelected() {
             $("#enemyDefender p").last().text(enemyCharacter.health);
             playerCharacter.attackPower += playerCharacter.attackPower;
             if(enemyCharacter.health <= 0) {
-                var wins = 0;
-                var losses = 0;
                 $("#enemyDefender").remove();
                 $("#enemies").on("click", ".enemyCharacter", function(){
                     $(this).attr("id", "enemySelected");
@@ -126,7 +124,7 @@ function enemySelected() {
                         $("#player").remove();
                         // need to increment wins
                         // need to change the .text of the #wins ID to be the value of wins. 
-                        wins++;
+                        $("#win").text("Congratulations! You won last round.");
                         var objectCopyObi = Object.assign({}, obiWan);
                         var objectCopyAnakin = Object.assign({}, anakin);
                         var objectCopyGrevious = Object.assign({}, grevious);
@@ -139,10 +137,9 @@ function enemySelected() {
                 }
             } 
             if(playerCharacter.health <= 0) {
-                console.log("loss block runs");
+                $("#win").text("You lost the previous round.");
                 $("#player").remove();
                 $(".enemyCharacter").remove();
-                losses++;
                 var objectCopyObi = Object.assign({}, obiWan);
                 var objectCopyAnakin = Object.assign({}, anakin);
                 var objectCopyGrevious = Object.assign({}, grevious);
