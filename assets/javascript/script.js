@@ -114,6 +114,8 @@ function enemySelected() {
             $("#enemyDefender p").last().text(enemyCharacter.health);
             playerCharacter.attackPower += playerCharacter.attackPower;
             if(enemyCharacter.health <= 0) {
+                var wins = 0;
+                var losses = 0;
                 $("#enemyDefender").remove();
                 $("#enemies").on("click", ".enemyCharacter", function(){
                     $(this).attr("id", "enemySelected");
@@ -122,15 +124,31 @@ function enemySelected() {
                 if($("#defender").children().length === 1) {
                     if($("#enemies").children().length === 0) {
                         $("#player").remove();
-                        // allows first pass through to work.
+                        // need to increment wins
+                        // need to change the .text of the #wins ID to be the value of wins. 
+                        wins++;
                         var objectCopyObi = Object.assign({}, obiWan);
                         var objectCopyAnakin = Object.assign({}, anakin);
                         var objectCopyGrevious = Object.assign({}, grevious);
                         var objectCopyWindu = Object.assign({}, windu);
                         copyArray = [objectCopyObi, objectCopyAnakin, objectCopyGrevious, objectCopyWindu];
                         startGameState();
-                    }
+                        // else if player character is defeated we need to restart the game. May need to copy code
+                      // from code block above
+                    } 
                 }
+            } 
+            if(playerCharacter.health <= 0) {
+                console.log("loss block runs");
+                $("#player").remove();
+                $(".enemyCharacter").remove();
+                losses++;
+                var objectCopyObi = Object.assign({}, obiWan);
+                var objectCopyAnakin = Object.assign({}, anakin);
+                var objectCopyGrevious = Object.assign({}, grevious);
+                var objectCopyWindu = Object.assign({}, windu);
+                copyArray = [objectCopyObi, objectCopyAnakin, objectCopyGrevious, objectCopyWindu];
+                startGameState();
             }
         }); 
     }
