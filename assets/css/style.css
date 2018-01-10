@@ -5,6 +5,10 @@
     display: block;
 }
 
+#characters {
+    width: 900px;
+}
+
 .position {
     float: left;
     margin-left: 10px;
@@ -23,4 +27,29 @@
 
 #fight {
     margin-top: 250px;
+}
+
+h2 {
+    margin-left: 10px;
+}
+
+button {
+    margin-left: 10px;
+}
+
+body {
+    background-image: url("../images/X-wing.jpg");
+    /* Make background no repeat and cover */
+}
+
+#stats {
+    height: 65px;
+    width: 175px;
+    background-color: white;
+    float: right;
+    text-align: center;
+}
+
+aside {
+    visibility: hidden;
 }

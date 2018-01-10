@@ -10,8 +10,6 @@ function character(name, image, health, attackPower, counterAttack, audio) {
     this.audio = audio;
 } 
 
-// Add a display stats box that is floated right, display hidden
-// reveal stats box when a character div is hovered and display that characters stats
 
 var audioThemeArray = ["assets/audio/Themes/Main.mp3", "assets/audio/Themes/Fates.mp3", "assets/audio/Themes/Cantina.mp3" ];
 var audioCount = 0;
@@ -57,10 +55,10 @@ function startGameState()  {
     var copyArray = [objectCopyObi, objectCopyAnakin, objectCopyGrevious, objectCopyWindu];
 
     for(var i = 0; i < charArray.length; i++) {
-        var newDiv = $("<div>");
-        var nameP = $("<p>");
-        var healthP = $("<p>");
-        var newImg = $("<img>");
+        newDiv = $("<div>");
+        nameP = $("<p>");
+        healthP = $("<p>");
+        newImg = $("<img>");
         newDiv.addClass("position character");
         newDiv.attr("value", i);
         nameP.text(charArray[i].name);
@@ -74,6 +72,38 @@ function startGameState()  {
         $("#characters").append(newDiv);
         $(".character").css("backgroundColor", "green");
     }
+
+    // Code for start game Statistics
+    $(".character").on("mouseover", function() {
+        //this code is always needed to reset values to initial game state values
+        var objectCopyObi = Object.assign({}, obiWan);
+        var objectCopyAnakin = Object.assign({}, anakin);
+        var objectCopyGrevious = Object.assign({}, grevious);
+        var objectCopyWindu = Object.assign({}, windu);
+        copyArray = [objectCopyObi, objectCopyAnakin, objectCopyGrevious, objectCopyWindu];
+        
+        if($("#characters").children().length === 4) {
+            $("aside").css("visibility", "visible");
+            var hoverHealth = $(this).health;
+            $(this).attr("id", "tempHover");
+            var tempValue = $("#tempHover").attr("value");
+            tempValue = parseInt(tempValue);
+            $("#statName").text(copyArray[tempValue].name);
+            $("#health").text("Health: " + copyArray[tempValue].health);
+            $("#damage").text("Attack: " + copyArray[tempValue].attackPower);
+            $("#counter").text("Counter Attack: " + copyArray[tempValue].counterAttack);
+            console.log(tempValue);
+            console.log($(".character"));
+        }
+    })
+
+    $(".character").on("mouseleave", function(){
+        if($("#characters").children().length === 4) {
+            $("aside").css("visibility", "hidden");
+            $(this).removeAttr("id");
+        }
+    })
+
     $(".character").on("click", function() {
         $(this).attr("id", "player");
         var playerValue = ($("#player").attr("value"));
@@ -162,7 +192,6 @@ function enemySelected() {
                         var objectCopyGrevious = Object.assign({}, grevious);
                         var objectCopyWindu = Object.assign({}, windu);
                         copyArray = [objectCopyObi, objectCopyAnakin, objectCopyGrevious, objectCopyWindu];
-                        // turn off main theme audio just before game start function is recalled 
                         startTheme.pause();
                         startTheme.currentTime = 0;
                         audioCount++;
@@ -174,7 +203,7 @@ function enemySelected() {
                     } 
                 }
             } 
-            if(playerCharacter.health <= 0) {
+            if(playerCharacter.health <= 0 && $("#defender").childern().length === 0) {
                 $("#win").text("You lost the previous round.");
                 $("#player").remove();
                 $(".enemyCharacter").remove();
@@ -183,6 +212,13 @@ function enemySelected() {
                 var objectCopyGrevious = Object.assign({}, grevious);
                 var objectCopyWindu = Object.assign({}, windu);
                 copyArray = [objectCopyObi, objectCopyAnakin, objectCopyGrevious, objectCopyWindu];
+                startTheme.pause();
+                startTheme.currentTime = 0;
+                audioCount++;
+                if(audioCount > audioThemeArray.length - 1) {
+                    audioCount = 0;
+                }
+                startTheme = new Audio(audioThemeArray[audioCount]);
                 startGameState();
             }
         }); 
