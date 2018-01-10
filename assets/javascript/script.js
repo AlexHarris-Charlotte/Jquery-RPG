@@ -1,3 +1,5 @@
+// This turned into Spaghetti realllll quick. :/
+
 // Object Constructor
 function character(name, image, health, attackPower, counterAttack, audio) {
     this.name = name;
@@ -8,20 +10,19 @@ function character(name, image, health, attackPower, counterAttack, audio) {
     this.audio = audio;
 } 
 
-// Need to lower the main themes volume compared to other audios
-// turn off main theme audio just before game start function is recalled 
 // Add a display stats box that is floated right, display hidden
 // reveal stats box when a character div is hovered and display that characters stats
 
-var audioThemeArray = [""];
-
-var startTheme = new Audio("assets/audio/Themes/Fates.mp3");
+var audioThemeArray = ["assets/audio/Themes/Main.mp3", "assets/audio/Themes/Fates.mp3", "assets/audio/Themes/Cantina.mp3" ];
+var audioCount = 0;
+var startTheme = new Audio(audioThemeArray[audioCount]);
 startTheme.muted = false;
 startTheme.volume = 0.2;
 var obiAudio = new Audio("assets/audio/Character-Quotes/obiwan-quote.mp3");
 var anakinAudio = new Audio("assets/audio/Character-Quotes/anakin-quote.mp3");
 anakinAudio.volume = 1;
 var greviousAudio = new Audio("assets/audio/Character-Quotes/grevious-quote.wav");
+greviousAudio.volume = 0.3;
 var maceAudio = new Audio("assets/audio/Character-Quotes/mace-quote.mp3");
 
 var obiWan = new character("Obi-Wan Kenobi", "https://media0.giphy.com/media/3ohuAkAS7Uzq20qzXW/200.gif#29-grid1", 150, 10, 15, obiAudio);
@@ -49,7 +50,7 @@ var objectCopyWindu = Object.assign({}, windu);
 
 function startGameState()  {
     //Audio repeats on a win or loss. So need to turn audio off at the end of a round
-    var startTheme = new Audio("assets/audio/Themes/Fates.mp3");
+    // var startTheme = new Audio("assets/audio/Themes/Cantina.mp3");
     startTheme.volume = 0.2;
     startTheme.play();
 
@@ -71,6 +72,7 @@ function startGameState()  {
         nameP.append(healthP);
         newDiv.append(nameP);
         $("#characters").append(newDiv);
+        $(".character").css("backgroundColor", "green");
     }
     $(".character").on("click", function() {
         $(this).attr("id", "player");
@@ -78,9 +80,6 @@ function startGameState()  {
         playerValue = parseInt(playerValue);
         var playerCharacter = copyArray[playerValue];
         playerCharacter.audio.play();
-
-
-
         $(".character").not(this).appendTo("#enemies");
         $(".character").not(this).addClass("enemyCharacter");
         $(".character").not(this).css("backgroundColor", "red");
@@ -99,7 +98,7 @@ $("#enemies").on("click", ".enemyCharacter", function(){
 $("#enemies").on("click", ".enemyCharacter", function(){
     enemySelected();
 });
-
+// Create copies of the player objects
 var objectCopyObi = Object.assign({}, obiWan);
 objectCopyObi.health = obiWan.health;
 objectCopyObi.attackPower = obiWan.attackPower;
@@ -121,6 +120,7 @@ function enemySelected() {
     console.log("enemy clicked to defender");
     $("#enemySelected").appendTo("#defender");
     $("#enemySelected").attr("id", "enemyDefender");
+    $(this).attr("id", "enemyDefender");
     var enemyValue = ($("#enemyDefender").attr("value"));
     enemyValue = parseInt(enemyValue);
     var enemyCharacter = copyArray[enemyValue];
@@ -147,6 +147,10 @@ function enemySelected() {
                 $("#enemyDefender").remove();
                 $("#enemies").on("click", ".enemyCharacter", function(){
                     $(this).attr("id", "enemySelected");
+                    var enemyValue = ($("#enemySelected").attr("value"));
+                    enemyValue = parseInt(enemyValue);
+                    var enemyCharacter = copyArray[enemyValue];
+                    enemyCharacter.audio.play();
                     appendToDefend();
                 });
                 if($("#defender").children().length === 1) {
@@ -159,8 +163,13 @@ function enemySelected() {
                         var objectCopyWindu = Object.assign({}, windu);
                         copyArray = [objectCopyObi, objectCopyAnakin, objectCopyGrevious, objectCopyWindu];
                         // turn off main theme audio just before game start function is recalled 
-                        startTheme.muted = true;
-                        console.log(startTheme.muted);
+                        startTheme.pause();
+                        startTheme.currentTime = 0;
+                        audioCount++;
+                        if(audioCount > audioThemeArray.length - 1) {
+                            audioCount = 0;
+                        }
+                        startTheme = new Audio(audioThemeArray[audioCount]);                        console.log("theme changed");
                         startGameState();
                     } 
                 }
@@ -174,8 +183,6 @@ function enemySelected() {
                 var objectCopyGrevious = Object.assign({}, grevious);
                 var objectCopyWindu = Object.assign({}, windu);
                 copyArray = [objectCopyObi, objectCopyAnakin, objectCopyGrevious, objectCopyWindu];
-                // turn off main theme audio just before game start function is recalled 
-
                 startGameState();
             }
         }); 
