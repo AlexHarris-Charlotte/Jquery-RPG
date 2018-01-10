@@ -39,7 +39,8 @@ button {
 
 body {
     background-image: url("../images/X-wing.jpg");
-    /* Make background no repeat and cover */
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 #stats {
